@@ -31,7 +31,6 @@ public class RayManager : MonoBehaviour
         {
             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
-                Debug.Log(hit.collider.gameObject.name);
                 targetEvent = hit.collider.gameObject.GetComponent<TargetEvent>();
                 targetEvent.IsWatching = true;
             }
