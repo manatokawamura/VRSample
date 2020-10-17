@@ -14,6 +14,10 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         playerTransform = transform.parent;
+        #if UNITY_EDITOR
+        #else
+        Input.gyro.enabled = true;
+        #endif
     }
 	
 	void Update()
@@ -34,7 +38,8 @@ public class CameraController : MonoBehaviour
 
     private void MoveCamera()
     {
-        //ドラッグ中のみ
+        #if UNITY_EDITOR
+        //クリック中は動作しない
         if(Input.GetMouseButton(0))
         {
             return;
@@ -44,5 +49,8 @@ public class CameraController : MonoBehaviour
         // 見づらくなるので回転軸を分ける
         playerTransform.transform.Rotate(0, xRotate, 0);
         transform.Rotate(-yRotate, 0, 0);
+        #else
+        transform.rotation = Quaternion.AngleAxis(90.0f,Vector3.right)*Input.gyro.attitude*Quaternion.AngleAxis(180.0f,Vector3.forward);
+        #endif
     }
 }
